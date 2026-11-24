@@ -59,10 +59,10 @@ function authorized(req) {
 
 function loginPage(res, code = 200, alert = "") {
   const body = `<!DOCTYPE html><html lang="it"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Banchina · Accesso</title><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#1d4e89">
+<title>Addò sta? · Accesso</title><link rel="manifest" href="manifest.webmanifest"><link rel="apple-touch-icon" href="icon-180.png"><meta name="theme-color" content="#1d4e89">
 <style>body{margin:0;min-height:100vh;display:grid;place-items:center;background:#1d4e89;color:#f4efe4;font:16px system-ui,sans-serif}
 form{display:grid;gap:12px;width:min(320px,100% - 32px)}input,button{font:inherit;padding:12px;border-radius:10px;border:0}button{background:#f4efe4;color:#1d4e89;font-weight:600}</style></head>
-<body><form method="post" action="/login"><h1 style="margin:0">Banchina</h1>${alert ? `<p role="alert">${alert}</p>` : ""}
+<body><form method="post" action="/login"><h1 style="margin:0">Addò sta?</h1>${alert ? `<p role="alert">${alert}</p>` : ""}
 <label for="pw">Password</label><input id="pw" name="password" type="password" autocomplete="current-password" required autofocus><button>Entra</button></form></body></html>`;
   res.writeHead(code, { "content-type": "text/html; charset=utf-8", "cache-control": "no-store" });
   res.end(body);
@@ -402,7 +402,7 @@ createServer((req, res) => {
     if (!res.headersSent) fail(res, error);
   });
 }).listen(port, host, () => {
-  console.log(`banchina in ascolto su ${port}`);
+  console.log(`Addò sta? in ascolto su ${port}`);
   refresh();
   setInterval(refresh, 6 * 60 * 60 * 1000);
 });

@@ -5,7 +5,7 @@ const BASE = "https://proxy.busone.app/anm";
 const TTL_MS = 10000;
 const MAX_AGE_SEC = 90;
 
-const CLIENT = process.env.BUSONE_CLIENT || "Banchina Napoli (uso personale, non commerciale)";
+const CLIENT = process.env.BUSONE_CLIENT || "Addo sta? Napoli (uso personale, non commerciale)";
 const USE = process.env.BUSONE_USE || "personal";
 const HEADERS = { "X-BusOne-Client": CLIENT, "X-BusOne-Use": USE };
 

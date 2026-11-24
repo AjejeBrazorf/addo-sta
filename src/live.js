@@ -1,9 +1,9 @@
 import { getBuffer, upstreamError } from "./net.js";
 import { FS_STATIONS, fsStation, isLinea2Place, viaggiaStamp } from "./places.js";
 
-const UA = "Mozilla/5.0 (compatible; BanchinaNapoli/1.0; +https://www.eavsrl.it/open-data/)";
+const UA = "Mozilla/5.0 (compatible; AddoSta/1.0; +https://www.eavsrl.it/open-data/)";
 // ViaggiaTreno's WAF answers 403 to a UA carrying a URL; this plain one works. Its HTTPS endpoint 301s back to http, so it stays http.
-const VT_UA = "Mozilla/5.0 (compatible; BanchinaNapoli/1.0)";
+const VT_UA = "Mozilla/5.0 (compatible; AddoSta/1.0)";
 const memory = new Map();
 
 function remember(key, ttl, producer) {
