@@ -1,0 +1,13 @@
+{
+  "name": "banchina-napoli",
+  "private": true,
+  "type": "module",
+  "description": "Orari e banchine di EAV, ANM e FS Linea 2 a Napoli",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,27 @@
+# fly launch --no-deploy  (lets Fly pick a unique app name), then:
+#   fly secrets set ACCESS_PASSWORD=... SESSION_SECRET=$(openssl rand -hex 32) && fly deploy
+# Both secrets are required on Fly: the app refuses to start without them. Changing either logs everyone out.
+primary_region = "fra"
+
+[build]
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+[mounts]
+  source = "banchina_data"
+  destination = "/app/data"
+
+[[vm]]
+  memory = "1gb"
+
+[[http_service.checks]]
+  method = "GET"
+  path = "/healthz"
+  interval = "30s"
+  timeout = "5s"
+  grace_period = "10s"
