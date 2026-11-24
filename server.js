@@ -159,6 +159,7 @@ function fsMatches(query) {
 
 function eavMatches(stations, query) {
   const key = nameKey(query);
+  if (key.length < 2) return []; // "linea 6" -> "6": leave it to the exact line match
   return stations.filter((station) => nameKey(station.name).includes(key) || station.lines.some((line) => nameKey(line).includes(key)));
 }
 

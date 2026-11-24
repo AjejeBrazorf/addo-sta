@@ -474,24 +474,28 @@ function showUser(lat, lon, zoom) {
 // One entry point for "where am I": always centres the map; on the home or nearby view it also
 // lists the closest stops. Elsewhere (an open board or route) it only moves the map, so the
 // traveller does not lose what they were reading.
-function locateMe(button) {
+// `auto` (phone boot): only centre the map, stay silent on failure, and give up if the traveller
+// already opened something while the GPS was warming up.
+function locateMe(button, auto = false) {
   if (!navigator.geolocation) {
-    statusEl.textContent = "Questo browser non fornisce la posizione.";
+    if (!auto) statusEl.textContent = "Questo browser non fornisce la posizione.";
     return;
   }
-  const listNearby = Boolean(work.querySelector(".home, .near"));
+  const listNearby = !auto && Boolean(work.querySelector(".home, .near"));
   button.setAttribute("aria-busy", "true");
   if (listNearby) statusEl.textContent = "Cerco le fermate vicine…";
   navigator.geolocation.getCurrentPosition(
     async (position) => {
       const { latitude, longitude } = position.coords;
-      if (listNearby) await showNearby(latitude, longitude);
       button.removeAttribute("aria-busy");
+      if (auto && state.selection) return;
+      if (listNearby) await showNearby(latitude, longitude);
       statusEl.textContent = "";
       showUser(latitude, longitude, 16);
     },
     (error) => {
       button.removeAttribute("aria-busy");
+      if (auto) return;
       statusEl.textContent = error.code === error.PERMISSION_DENIED
         ? "Posizione negata. Consenti l'accesso alla posizione nelle impostazioni del browser."
         : "Posizione non disponibile. Cerca la fermata per nome.";

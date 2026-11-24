@@ -43,7 +43,10 @@ function db() {
 
 export function suggest(query, operator) {
   const q = nameKey(query).slice(0, 40);
-  if (q.length < 2) return { stops: [], routes: [] };
+  if (!q) return { stops: [], routes: [] };
+  // "linea 6" reaches here as "6" (server cleanQuery drops "linea"): one character is too short
+  // for a name search but is a valid line number, so answer with exact line hits only.
+  if (q.length < 2) return { stops: [], routes: exactRoutes(q, operator).map(routeDto) };
   const like = `%${q}%`;
   const opClause = operator ? "AND operator = ?" : "";
   const opArgs = operator ? [operator] : [];
@@ -56,19 +59,33 @@ export function suggest(query, operator) {
        LIMIT 40`,
     )
     .all(like, ...opArgs, `${q}%`);
-  const routes = [];
+  const exact = exactRoutes(q, operator);
+  const partial = [];
   for (const entry of routeList()) {
-    if (routes.length === 12) break;
     if (operator && entry.route.operator !== operator) continue;
+    if (exact.includes(entry.route)) continue;
     // match on the same nameKey as the query, so "pompei scavi" finds "Napoli - Pompei Scavi - Sorrento"
-    if (entry.shortKey.includes(q) || entry.longKey.includes(q)) routes.push(entry.route);
+    if (entry.shortKey.includes(q) || entry.longKey.includes(q)) partial.push(entry.route);
   }
+  const routes = [...exact, ...partial].slice(0, 12);
   const groups = groupStops(stops).slice(0, 12);
   const lines = linesFor(groups);
   return {
     stops: groups.map((stop, i) => ({ ...stop, lines: lines[i] })),
     routes: routes.map(routeDto),
   };
+}
+
+/**
+ * Routes whose short name is the query as a line number, best first. "6" ranks metro L6 / M6
+ * ahead of EAV rail "6": in Napoli "linea 6" means the metro.
+ */
+function exactRoutes(q, operator) {
+  const keys = [`L${q}`, `M${q}`, q];
+  return routeList()
+    .filter((entry) => (!operator || entry.route.operator === operator) && keys.includes(entry.shortKey))
+    .sort((a, b) => keys.indexOf(a.shortKey) - keys.indexOf(b.shortKey))
+    .map((entry) => entry.route);
 }
 
 /** All routes with their search keys, ordered like the old SQL (length(short_name), short_name). */

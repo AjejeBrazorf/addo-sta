@@ -13,6 +13,8 @@ async function boot() {
   renderHome();
   const locate = document.querySelector("#locate");
   locate.addEventListener("click", () => locateMe(locate));
+  // ponytail: "phone" = touch-first pointer; tablets count too, which is fine for a transit map.
+  if (matchMedia("(pointer: coarse)").matches) locateMe(locate, true);
   try {
     const fs = await api("/api/fs/stations");
     state.fsStations = fs.stations;
