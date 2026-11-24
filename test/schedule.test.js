@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { DatabaseSync } from "node:sqlite";
 import { test } from "node:test";
+import { cleanQuery } from "../src/places.js";
 import { linkFsStops, mapStops, setDatabase, suggest } from "../src/schedule.js";
 
 // Same tables as src/ingest.js (only the ones schedule.js reads in these tests).
@@ -22,7 +23,10 @@ db.exec(`
     ('eav', 'NS', 'EAV', 'NS', 'Napoli - Pompei Scavi - Sorrento', 2, 'ff0000', 'eav-rail'),
     ('eav', 'B1', 'EAV', 'B1', 'Pompei Scavi - Castellammare', 3, '', 'eav-bus'),
     ('anm', 'R2', 'ANM', 'R2', 'Garibaldi - Municipio', 3, '', 'anm'),
-    ('anm', '151', 'ANM', '151', 'Garibaldi - Pozzuoli', 3, '', 'anm');
+    ('anm', '151', 'ANM', '151', 'Garibaldi - Pozzuoli', 3, '', 'anm'),
+    ('anm', '1516', 'ANM', '1516', 'Garibaldi - Bagnoli', 3, '', 'anm'),
+    ('anm', 'L6', 'ANM', 'L6', 'Mostra - Municipio', 1, '', 'anm'),
+    ('eav', '6', 'EAV', '6', 'Napoli - Ottaviano - Sarno', 2, '', 'eav-rail');
   INSERT INTO stops VALUES
     ('eav', 'P1', 'Pompei Scavi', 'POMPEISCAVI', 40.7498, 14.4857, 'eav-rail', 2),
     ('anm', 'G1', 'Garibaldi', 'GARIBALDI', 40.8530, 14.2720, 'anm', 3),
@@ -43,6 +47,16 @@ setDatabase(db);
 test("multi-word query matches route long names", () => {
   const { routes } = suggest("pompei scavi");
   assert.deepEqual(routes.map((route) => route.id), ["B1", "NS"]);
+});
+
+test("line queries hit the short name exactly, ahead of partial matches", () => {
+  // same path as server.js search(): cleanQuery first, so "linea 6" arrives as "6"
+  const ids = (raw) => suggest(cleanQuery(raw)).routes.map((route) => route.id);
+  assert.deepEqual(ids("linea 6"), ["L6", "6"]);
+  assert.deepEqual(ids("metro 6"), ["L6", "6"]);
+  assert.deepEqual(ids("1516"), ["1516"]);
+  assert.deepEqual(ids("bus 151"), ["151", "1516"]);
+  assert.deepEqual(suggest("6").stops, []);
 });
 
 test("operator filter restricts routes and stops", () => {
