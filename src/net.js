@@ -1,7 +1,7 @@
 import http from "node:http";
 import https from "node:https";
 
-const UA = "Mozilla/5.0 (compatible; BanchinaNapoli/1.0)";
+const UA = "Mozilla/5.0 (compatible; AddoSta/1.0)";
 const MAX_BYTES = 25 * 1024 * 1024;
 
 /** Upstream failure: 502 for the client, message safe to show (Italian, no internals). */

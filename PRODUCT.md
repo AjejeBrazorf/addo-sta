@@ -12,7 +12,7 @@ People in Naples who already know roughly what they are looking for: a train, a 
 
 ## Product Purpose
 
-Banchina answers the questions a traveller asks at a stop or station, fast and without losing detail:
+Addò sta? answers the questions a traveller asks at a stop or station, fast and without losing detail:
 
 - Which transport do I want: a train, a bus, or a stop?
 - Where does this line take me? Show it as an ordered list of stops and as a path on the map.
@@ -43,7 +43,7 @@ Used on the go, usually on a phone with a patchy connection. Stop boards refresh
 
 ## Brand Commitments
 
-None confirmed. The page title is "Banchina · Napoli" and the favicon is `favicon.svg`.
+None confirmed. The app is called "Addò sta?"; the page title is "Addò sta? · Napoli" and the favicon is `favicon.svg`.
 
 ## Evidence on Hand
 

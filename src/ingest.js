@@ -8,7 +8,7 @@ import { iterateCsv, parseCsv } from "./csv.js";
 import { nameKey } from "./places.js";
 import { centralDirectory, readZip } from "./zip.js";
 
-const UA = "BanchinaNapoli/1.0 (orari aperti EAV e ANM; contatto locale)";
+const UA = "AddoSta/1.0 (orari aperti EAV e ANM; contatto locale)";
 const WANTED = new Set(["agency.txt", "routes.txt", "stops.txt", "trips.txt", "stop_times.txt", "calendar.txt", "calendar_dates.txt", "shapes.txt"]);
 const OPTIONAL = new Set(["calendar.txt", "calendar_dates.txt"]); // at least one of the two, checked in build()
 const SCHEMA = 3;

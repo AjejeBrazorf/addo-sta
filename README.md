@@ -1,4 +1,4 @@
-# Addo' sta? · Napoli
+# Addò sta? · Napoli
 
 A small, phone-first web app for getting around Naples. It puts EAV rail and bus, ANM and FS Linea 2 in one place: search a stop, a station or a line, see the next departures, follow a line on the map, find the stops near you.
 
@@ -34,7 +34,7 @@ Locally, no password is required unless you set `ACCESS_PASSWORD`.
 | `PORT` / `HOST` | Listen address. Default `8787` / `0.0.0.0`. |
 | `ACCESS_PASSWORD` | Shared password for the whole app. Required on Fly or with `NODE_ENV=production`. |
 | `SESSION_SECRET` | Key for the login cookie. Required on Fly or with `NODE_ENV=production`. Changing it, or the password, logs everyone out. |
-| `BUSONE_CLIENT` | Sent as `X-BusOne-Client` to the BusOne proxy. BusOne asks for the app name **and a contact**: set it to something like `Addo' sta (you@example.com)`. |
+| `BUSONE_CLIENT` | Sent as `X-BusOne-Client` to the BusOne proxy. BusOne asks for the app name **and a contact**: set it to something like `Addo sta? (you@example.com)`. |
 | `BUSONE_USE` | Sent as `X-BusOne-Use`. Default `personal`. |
 
 ## Deploy (Fly.io)
@@ -79,7 +79,7 @@ Map credits are shown on the map, bottom left. All credits are in the app under 
 
 ## Disclaimer
 
-Addo' sta is an independent, non-commercial personal project. It is not affiliated with or endorsed by EAV, ANM, Trenitalia, RFI or BusOne. Times and positions come from third-party sources and can be wrong or missing; check official channels before relying on them.
+Addò sta? is an independent, non-commercial personal project. It is not affiliated with or endorsed by EAV, ANM, Trenitalia, RFI or BusOne. Times and positions come from third-party sources and can be wrong or missing; check official channels before relying on them.
 
 Some live sources (the EAV station boards and ViaggiaTreno) are public web endpoints without a documented API. If you run your own instance, keep the request rate low, keep it personal and non-commercial, and respect each source's terms.
 
